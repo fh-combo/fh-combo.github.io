@@ -5,6 +5,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const rewireLess = require('react-app-rewire-less')
 const rewireDefinePlugin = require('react-app-rewire-define-plugin')
 const rewireWebpackBundleAnalyzer = require('react-app-rewire-webpack-bundle-analyzer')
+const path = require('path')
 
 module.exports = function override(config, env) {
     config = injectBabelPlugin(
@@ -39,6 +40,24 @@ module.exports = function override(config, env) {
     })
 
     config = rewireSass(config)
+
+    // 短路径别名配置
+    config.resolve = {
+        ...config.resolve,
+        alias: {
+            // '@': path.resolve(__dirname, 'src'),
+            '@node_modules': path.resolve(__dirname, 'node_modules'),
+            '@api': path.resolve(__dirname, 'src/api'),
+            '@components': path.resolve(__dirname, 'src/components'),
+            '@assets': path.resolve(__dirname, 'src/assets'),
+            '@routerConfig': path.resolve(__dirname, 'src/routerConfig.js'),
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            '@routes': path.resolve(__dirname, 'src/routes'),
+            '@stores': path.resolve(__dirname, 'src/stores'),
+            '@utils': path.resolve(__dirname, 'src/utils'),
+
+        }
+    }
 
     if (env === 'production') {
         config = rewireWebpackBundleAnalyzer(config, env, {

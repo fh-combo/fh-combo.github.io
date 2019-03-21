@@ -1,48 +1,48 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
-import './App.scss'
+// import logo from './logo.svg'
+// import './App.scss'
 import Next from '@alifd/next'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 // 如下方式进行引入，这样就会按需引入所需的js和css了
 import { Button, Icon, Row, Col } from 'antd'
-import './style.less'
+// import './style.less'
+import routes from '@routerConfig'
+import Banner from '@components/banner'
 
 class App extends Component {
   render () {
     return (
       <div className='App'>
-        button
         <Button type='primary'>
-          Button
+          Primary
         </Button>
-        <br /> icon
-        <Icon type='link' />
-        <br />
-        <div className='grid'>
-          <Row className='row'>
-            <Col className='col' span={12}> col-12
-            </Col>
-            <Col className='col' span={12}> col-12
-            </Col>
-          </Row>
-          <Row className='row'>
-            <Col className='col' span={8}> col-8
-            </Col>
-            <Col className='col' span={8}> col-8
-            </Col>
-            <Col className='col' span={8}> col-8
-            </Col>
-          </Row>
-          <Row className='row'>
-            <Col className='col' span={6}> col-6
-            </Col>
-            <Col className='col' span={6}> col-6
-            </Col>
-            <Col className='col' span={6}> col-6
-            </Col>
-            <Col className='col' span={6}> col-6
-            </Col>
-          </Row>
-        </div>
+        <Banner/>
+        <Router>
+          <header className='title'>
+            {routes.map((r, key) => {
+               if (r.text) {
+                 return <Link key={key} to={r.path}>
+                        {r.text}
+                        </Link>
+               }
+             })}
+          </header>
+          {routes.map((route, key) => {
+             if (route.exact) {
+               return <Route
+                        key={key}
+                        exact
+                        path={route.path}
+                        render={props => (
+                                  <route.component {...props} routes={route.routes} />
+                                )} />
+             }else {
+               return <Route key={key} path={route.path} render={props => (
+                                                        <route.component {...props} routes={route.routes} />
+                                                      )} />
+             }
+           })}
+        </Router>
       </div>
     )
   }
