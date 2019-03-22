@@ -9,7 +9,7 @@ root = true
 charset = utf-8
 # 空格形式缩进4空格
 indent_style = space
-indent_size = 4
+indent_size = 2
 # 换行符使用 unix 的换行符 \n
 end_of_line = lf
 # 文件结尾插入新行

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import './banner.less'
-import bannerImg from '@assets/img/bannerfull.jpg'
+import bannerImg from '@assets/img/travel-youtube-banner.jpg'
 export class Banner extends Component {
   constructor (props) {
     super(props)
