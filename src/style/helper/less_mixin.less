@@ -1,0 +1,17 @@
+//多行文本省略...  clp：行数
+.less_line_clamp(@a){
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @a;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+}
+
+// 单行文本省略...//使用它的前提容器必须顶宽度
+.less_line_only {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

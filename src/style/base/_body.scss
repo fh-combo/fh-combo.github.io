@@ -2,38 +2,40 @@
 *,
 *:before,
 *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  height: 100%;
-  min-height: 100%;
-  width: 100%;
-  // overflow: hidden;
-  @include fontCss('yahei');
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    @include fontCss('yahei');
 }
+
 
 /* 文章字体 */
 
 .blog-post-page-font {
-  font-size: 18px;
-  line-height: normal;
-  @include fontCss('helvetica');
+    font-size: 18px;
+    line-height: normal;
+    @include fontCss('helvetica');
 }
 
 .center_borderbox {
-  width: 980px;
-  margin: 0 auto;
+    width: 980px;
+    margin: 0 auto;
+    overflow: hidden;
 }
+
 
 /*粘连footer方法*/
 
 .App,
 .wrapper {
-  min-height: 100%;
+    min-height: 100%;
 }
 
 // .wrapper {
@@ -43,47 +45,47 @@ body {
 // .footer {
 //   height: 113px;
 // }
+
 /* end */
 
 .App {
-  .footer {
-    // position: absolute;
-    // bottom: 0;
-    width: 100%;
-    height: 113px;
-  }
+    .footer {
+        width: 100%;
+        height: 113px;
+    }
 }
 
 .App {}
 
 .rootwrap {
-  width: 100%;
-  height: 100%;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    min-width: 1200px;
 }
 
 #desktop_box {
-  top: 0;
-  background-color: rgb(220, 220, 220);
-  position: fixed;
-  width: 100%;
-  height: 100%;
+    top: 0;
+    background-color: rgb(220, 220, 220);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 #bg_image {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  object-position: 50% 50%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  height: 100%;
-  background-image: url('~@assets/img/e99b4e_2c9a153bef0445d3bfb520bac8ad96ed.png');
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    object-position: 50% 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-image: url('~@assets/img/beijing.png');
 }
 
 #site_root {
-  position: relative;
-  min-height:100vh;
-  height:auto;
+    position: relative;
+    min-height: calc(100vh - 113px);
 }

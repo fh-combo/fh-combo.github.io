@@ -25,36 +25,34 @@ class App extends Component {
               <Banner />
               <Router>
                 <Header />
-                <div className="center_borderbox">
-                  {routes.map((route, key) => {
-                    if (route.exact) {
-                      return (
-                        <Route
-                          key={key}
-                          exact
-                          path={route.path}
-                          render={props => (
-                            <route.component {...props} routes={route.routes} />
-                          )}
-                        />
-                      );
-                    } else {
-                      return (
-                        <Route
-                          key={key}
-                          path={route.path}
-                          render={props => (
-                            <route.component {...props} routes={route.routes} />
-                          )}
-                        />
-                      );
-                    }
-                  })}
-                </div>
+                {routes.map((route, key) => {
+                  if (route.exact) {
+                    return (
+                      <Route
+                        key={key}
+                        exact
+                        path={route.path}
+                        render={props => (
+                          <route.component {...props} routes={route.routes} />
+                        )}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Route
+                        key={key}
+                        path={route.path}
+                        render={props => (
+                          <route.component {...props} routes={route.routes} />
+                        )}
+                      />
+                    );
+                  }
+                })}
               </Router>
-              <Footer />
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     );
