@@ -11,12 +11,14 @@ import routes from "@routerConfig";
 import Banner from "@components/banner";
 import Header from "@components/header";
 import Footer from "@components/footer";
+import BackTop from "@components/backTop";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <div className="rootwrap">
+          <BackTop />
           <div id="desktop_box">
             <div id="bg_image" />
           </div>
