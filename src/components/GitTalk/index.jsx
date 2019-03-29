@@ -13,7 +13,7 @@ export default class Gitalks extends React.Component {
             repo: 'hawerblogTalkAbout',
             owner: 'fh-combo',
             admin: 'fh-combo',
-            id: this.props.path,
+            id: window.location.pathname,// this.props.path,
             distractionFreeMode: false
         })
         gitalk.render('gitalk-container')
