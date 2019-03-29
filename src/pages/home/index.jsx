@@ -11,21 +11,39 @@ import { CONFIG } from "@config";
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.handleOnArtice = this.handleOnArtice.bind(this);
+    this.state = {
+      itemList: []
+    };
+    // this.handleOnArtice = this.handleOnArtice.bind(this);
   }
   componentWillMount() {
     this.getBlogApiData();
   }
   getBlogApiData() {
     axios
-      .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`)
+      .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`,{
+        params:{
+          creator:CONFIG['owner'],
+          client_id:CONFIG['client_id'],
+          client_secret:CONFIG['client_secret']
+        }
+      })
       .then(res => {
-        console.log(res)
+        if (res.status === 200) {
+          this.setState({
+            itemList: res.data.slice(0,3)
+          });
+          console.log(this.state.itemList);
+        }
       });
   }
-  handleOnArtice(params) {
+  handleOnArtice=(item)=>{
     console.log("handleOnArtice");
+    console.log(item)
+    // 方式1：只能从别的页面跳转到指定页参数才能获取
+    // this.props.history.push({pathname:'/articleContent',query:{data:item.number}})
+    // 方式2：正则匹配参数，传递参数防止路由末尾，页面刷新参数还在
+    this.props.history.push(`/articleContent/${item.number}`)
   }
   render() {
     return (
@@ -54,114 +72,46 @@ export default class Home extends Component {
             <div className={styles.article_top}>
               <div className={styles.title}>最近文章</div>
               <div className={styles.article_box_wrap}>
-                <div
-                  className={styles.article_box}
-                  onClick={this.handleOnArtice}
-                >
-                  <div className={styles.img_wrap}>
-                    <img src={tupian} alt="" />
-                  </div>
-                  <div className={styles.art_info}>
-                    <div className={styles.art_tit}>
-                      <div className={styles.titname}>
-                        What you can learn from test tube babies babies babies
-                        babies babies babies babies babies babies babies babies
-                        babies babies babies babies babies babies babies babies
-                        babies babies babies babies babies
+                {this.state.itemList.map((it,index) => {
+                  return (
+                    <div
+                      className={styles.article_box}
+                      onClick={this.handleOnArtice.bind(this,it)}
+                      key={index}
+                    >
+                      <div className={styles.img_wrap}>
+                        <img src={tupian} alt="" />
+                      </div>
+                      <div className={styles.art_info}>
+                        <div className={styles.art_tit}>
+                          <div className={styles.titname}>{it.title}</div>
+                        </div>
+                        <div className={styles.art_data}>
+                          <span>
+                            <Icon type="eye" theme="twoTone" />
+                            预览量：
+                          </span>
+                          <span>
+                            <Icon
+                              type="tag"
+                              theme="twoTone"
+                              twoToneColor="#fb9998"
+                            />
+                            发布时间：
+                          </span>
+                          <span>
+                            <Icon
+                              type="heart"
+                              theme="twoTone"
+                              twoToneColor="#eb2f96"
+                            />
+                            点赞量：
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className={styles.art_data}>
-                      <span>
-                        <Icon type="eye" theme="twoTone" />
-                        预览量：
-                      </span>
-                      <span>
-                        <Icon
-                          type="tag"
-                          theme="twoTone"
-                          twoToneColor="#fb9998"
-                        />
-                        发布时间：
-                      </span>
-                      <span>
-                        <Icon
-                          type="heart"
-                          theme="twoTone"
-                          twoToneColor="#eb2f96"
-                        />
-                        点赞量：
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.article_box}>
-                  <div className={styles.img_wrap}>
-                    <img src={tupian} alt="" />
-                  </div>
-                  <div className={styles.art_info}>
-                    <div className={styles.art_tit}>
-                      <div className={styles.titname}>
-                        What you can learn from test tube babies babies babies
-                      </div>
-                    </div>
-                    <div className={styles.art_data}>
-                      <span>
-                        <Icon type="eye" theme="twoTone" />
-                        预览量：
-                      </span>
-                      <span>
-                        <Icon
-                          type="tag"
-                          theme="twoTone"
-                          twoToneColor="#fb9998"
-                        />
-                        发布时间：
-                      </span>
-                      <span>
-                        <Icon
-                          type="heart"
-                          theme="twoTone"
-                          twoToneColor="#eb2f96"
-                        />
-                        点赞量：
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.article_box}>
-                  <div className={styles.img_wrap}>
-                    <img src={tupian} alt="" />
-                  </div>
-                  <div className={styles.art_info}>
-                    <div className={styles.art_tit}>
-                      <div className={styles.titname}>
-                        What you can learn from test tube babies
-                      </div>
-                    </div>
-                    <div className={styles.art_data}>
-                      <span>
-                        <Icon type="eye" theme="twoTone" />
-                        预览量：
-                      </span>
-                      <span>
-                        <Icon
-                          type="tag"
-                          theme="twoTone"
-                          twoToneColor="#fb9998"
-                        />
-                        发布时间：
-                      </span>
-                      <span>
-                        <Icon
-                          type="heart"
-                          theme="twoTone"
-                          twoToneColor="#eb2f96"
-                        />
-                        点赞量：
-                      </span>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
           </div>

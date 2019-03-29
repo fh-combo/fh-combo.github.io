@@ -10,8 +10,11 @@
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
     "gh-pages": "^1.1.0",
+    "gitalk": "^1.4.0",
+    "highlight.js": "^9.12.0",
     "less": "^2.7.3",
     "less-loader": "^4.1.0",
+    "marked": "^0.4.0",
     "moment": "^2.23.0",
     "progress-bar-webpack-plugin": "^1.12.1",
     "react": "^16.2.0",
@@ -21,7 +24,8 @@
     "react-app-rewire-less-with-modules": "^0.0.4",
     "react-app-rewire-webpack-bundle-analyzer": "^1.0.1",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.0",
+    "webpack-jarvis": "^0.3.2"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -35,13 +39,17 @@
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
     "gh-pages": "^1.1.0",
+    "gitalk": "^1.4.0",
+    "highlight.js": "^9.12.0",
     "ice-skin-loader": "^0.1.1",
+    "marked": "^0.4.0",
     "node-sass": "^4.7.2",
     "react-app-rewire-css-modules": "^1.0.0",
     "react-app-rewire-less-with-modules": "^0.0.4",
     "react-app-rewired": "^1.5.0",
     "react-scripts": "1.1.1",
     "sass-loader": "^6.0.7",
+    "webpack-jarvis": "^0.3.2",
     "webpack-plugin-import": "^0.1.2"
   },
   "publishConfig": {

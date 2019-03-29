@@ -13,7 +13,7 @@ indent_size = 2
 # 换行符使用 unix 的换行符 \n
 end_of_line = lf
 # 文件结尾插入新行
-insert_final_newline = true
+# insert_final_newline = true
 # 行末尾去除空格
 trim_trailing_whitespace = true
 
