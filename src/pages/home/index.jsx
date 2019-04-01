@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./home.module.less";
 // import { Button } from "antd"
 import { Button as Abutton } from "@alifd/next";
-import { Icon } from "antd";
+import { Icon,Skeleton} from "antd";
 import headimg from "@assets/img/wangmen.png";
 import tupian from "@assets/img/tupian.jpg";
 import axios from "axios";
@@ -12,7 +12,8 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemList: []
+      itemList: [],
+      loading:false
     };
     // this.handleOnArtice = this.handleOnArtice.bind(this);
   }
@@ -20,6 +21,8 @@ export default class Home extends Component {
     this.getBlogApiData();
   }
   getBlogApiData() {
+    this.setState({loading:true});
+    const self = this;
     axios
       .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`, {
         params: {
@@ -31,14 +34,14 @@ export default class Home extends Component {
       .then(res => {
         if (res.status === 200) {
           let data = res.data;
-
+          self.setState({loading:false});
           const current = data.filter((v, k) => {
             return v["title"] != "React App" && !v["pull_request"];
           });
           console.log(current);
           // console.log(data)
           this.setState({
-            itemList: current.slice(0,3)
+            itemList: current.slice(0, 3)
           });
           console.log(this.state.itemList);
         }
@@ -53,6 +56,7 @@ export default class Home extends Component {
     this.props.history.push(`/articleContent/${item.number}`);
   };
   render() {
+    const {loading} = this.state
     return (
       <div>
         <div className="center_borderbox">
@@ -86,6 +90,7 @@ export default class Home extends Component {
                       onClick={this.handleOnArtice.bind(this, it)}
                       key={index}
                     >
+                    <Skeleton loading={loading} active>
                       <div className={styles.img_wrap}>
                         <img src={tupian} alt="" />
                       </div>
@@ -116,6 +121,7 @@ export default class Home extends Component {
                           </span>
                         </div>
                       </div>
+                    </Skeleton>
                     </div>
                   );
                 })}
