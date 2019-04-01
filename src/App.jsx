@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="rootwrap">
-          <BackTop />
+          <BackTop scrollStepInPx="50" delayInMs="16.66"/>
           <div id="desktop_box">
             <div id="bg_image" />
           </div>
