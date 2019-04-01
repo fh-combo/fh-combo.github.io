@@ -3,4 +3,32 @@
     text-align: center;
     padding:100px 0;
   }
+  .gutter-box{
+    margin-top: 36px;
+    &:nth-child(odd){
+      padding-left: 36px;
+    }
+  }
+}
+
+.articleItem_box{
+  width: 455px;
+  height: 455px;
+  background-color: rgba(0,0,0,.45);
+  cursor: pointer;
+  position: relative;
+  .artInfo_bottom{
+    position: absolute;
+    bottom: 0;
+    h1,span,div{
+      color:#fff;
+    }
+    h1{
+      font-size:24px;
+      padding: 0 15px;
+    }
+    >div{
+      padding: 5px 15px;
+    }
+  }
 }

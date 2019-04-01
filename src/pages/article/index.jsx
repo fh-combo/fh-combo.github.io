@@ -99,13 +99,17 @@ class Article extends Component {
   }
   pageChange = (page, pageSize) => {
     console.log(this);
-    let self = this;
     console.log("page", page);
     // console.log("pageSize", pageSize);
     this.setState({ page }, () => {
       console.log("当前页：", this.state.page);
       this.doQuery();
     });
+  };
+  handleOnArtice = item => {
+    console.log("handleOnArtice");
+    console.log(item);
+    this.props.history.push(`/articleContent/${item.number}`);
   };
   render() {
     const { page, pageNum, count, nowPageIssues, loading } = this.state;
@@ -118,24 +122,33 @@ class Article extends Component {
               <Spin indicator={antIcon} spinning={loading} />
             </div>
           ) : null}
-          <Row gutter={0}>
-            {nowPageIssues && nowPageIssues.length ? (
-              nowPageIssues.map((it, index) => {
-                return (
-                  <Col className="gutter-row" span={12} key={index}>
-                    <div className="gutter-box">
-                      <div className="articleItem_box">
-                        <h1>{it.title}</h1>
-                        <div>
-                          <span>发表于：</span>
-                          <span>{TimeUpdate(it.created_at)}</span>
+          <Row justify="space-around">
+            {nowPageIssues && nowPageIssues.length
+              ? nowPageIssues.map((it, index) => {
+                  return (
+                    <Col
+                      className="gutter-row"
+                      span={12}
+                      key={index}
+                      onClick={() => {
+                        this.handleOnArtice(it);
+                      }}
+                    >
+                      <div className="gutter-box">
+                        <div className={styles.articleItem_box}>
+                          <div className={styles.artInfo_bottom}>
+                            <h1>{it.title}</h1>
+                            <div>
+                              <span>发表于：</span>
+                              <span>{TimeUpdate(it.created_at)}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Col>
-                );
-              })
-            ) : null}
+                    </Col>
+                  );
+                })
+              : null}
           </Row>
           {nowPageIssues && nowPageIssues.length ? (
             <Pagination
@@ -147,7 +160,8 @@ class Article extends Component {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: 15
+                marginTop: 55,
+                marginBottom: 35
               }}
             />
           ) : null}
