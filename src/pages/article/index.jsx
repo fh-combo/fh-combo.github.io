@@ -4,6 +4,7 @@ import styles from "./article.module.less";
 import { CONFIG } from "@config";
 import { Row, Col, Pagination, message, Spin, Icon } from "antd";
 import { TimeUpdate } from "@utils";
+// import qs from "qs";
 
 class Article extends Component {
   constructor(props) {
@@ -21,6 +22,9 @@ class Article extends Component {
   }
   componentWillMount() {
     console.log("componentWillMount");
+    // console.info(qs.parse('utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+label%3A%22Vue%22'))
+    // let _obj = {utf8: '✓', q: 'is:issue is:open label:"Vue"'}//✓
+    // console.log(qs.stringify(_obj))
     this.doQuery();
   }
   componentDidMount() {
@@ -61,9 +65,9 @@ class Article extends Component {
     this.setState({
       loading: true
     });
-    this.doQueryCount();
+    // this.doQueryCount();
     axios
-      .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`, {
+      .get(`https://api.github.com/search/issues?q=state:open+repo:${CONFIG["owner"]}/${CONFIG["repositories"]}`, {
         params: {
           creator: CONFIG["owner"],
           client_id: CONFIG["client_id"],
@@ -79,12 +83,21 @@ class Article extends Component {
           this.setState({
             loading: false
           });
-          const current = data.filter((v, k) => {
-            return v["title"] != "React App";
-          });
+          // const current = data.filter((v, k) => {
+          //   return v["title"] != "React App";
+          // });
           this.setState(
             {
-              nowPageIssues: current
+              count: data.total_count
+            },
+            () => {
+              console.log("总数：", this.state.count);
+              // console.log("current", current);
+            }
+          );
+          this.setState(
+            {
+              nowPageIssues: data.items
             },
             () => {
               console.log(this.state.nowPageIssues);
@@ -153,7 +166,7 @@ class Article extends Component {
           {nowPageIssues && nowPageIssues.length ? (
             <Pagination
               current={page}
-              total={count - 1}
+              total={count}
               pageSize={pageNum}
               onChange={(page, pageSize) => this.pageChange(page, pageSize)}
               // hideOnSinglePage={true}

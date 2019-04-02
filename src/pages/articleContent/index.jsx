@@ -43,7 +43,7 @@ export default class articleContent extends Component {
             .get(
                 `https://api.github.com/repos/${
                     CONFIG["owner"]
-                }/hawerblog/issues/${this.state.id}`,{
+                }/${CONFIG["repositories"]}/issues/${this.state.id}`,{
                   params:{
                     creator:CONFIG['owner'],
                     client_id:CONFIG['client_id'],

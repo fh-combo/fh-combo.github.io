@@ -24,7 +24,7 @@ export default class Home extends Component {
     this.setState({loading:true});
     const self = this;
     axios
-      .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`, {
+      .get(`https://api.github.com/repos/${CONFIG["owner"]}/${CONFIG["repositories"]}/issues`, {
         params: {
           creator: CONFIG["owner"],
           client_id: CONFIG["client_id"],
