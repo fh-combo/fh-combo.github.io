@@ -9,13 +9,26 @@
 .userinfo {
   margin-top: 50px;
   margin-bottom: 100px;
-
+  clear: both;
+  overflow: hidden;
+  // >div {
+  //   display: table-cell;
+  //   vertical-align: top;
+  // }
+  >div{
+    float: left;
+  }
   .userimg {
-    padding-right: 150px;
-
+    // padding-right: 150px;
+    margin-right: 150px;
+    width: 273px;
+    height: 349px;
     img {
-      width: 273px;
-      height: 349px;
+      display:block;
+      width: 100%;
+      height: 100%;
+      // width: 273px;
+      // height: 349px;
     }
   }
 
@@ -58,10 +71,7 @@
 
   }
 
-  >div {
-    display: table-cell;
-    vertical-align: top;
-  }
+
 }
 
 .article_top {
@@ -108,15 +118,17 @@
     position: relative;
 
     img {
-      position: absolute;
-      margin: auto;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 350px;
-      height: 250px;
+      // position: absolute;
+      // margin: auto;
+      // left: 0;
+      // right: 0;
+      // top: 0;
+      // bottom: 0;
+      // width: 350px;
+      // height: 250px;
       display: block;
+      width: 100%;
+      height: 100%;
     }
   }
 

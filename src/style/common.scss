@@ -2,3 +2,20 @@
 @import 'helper/mixin'; //scss方法混合宏
 @import 'base/body';//页面初始化样式
 @import 'base/base';//项目常用基础样式
+
+
+/* 文字展示样式 */
+.article_wrap_block{
+ width: 1200px;
+ clear: both;
+ overflow: hidden;
+ margin: 0 auto;
+ >.left{
+  float: left;
+  width: 936px;
+ }
+ >.right{
+  float:right;
+ }
+}
+/* end */

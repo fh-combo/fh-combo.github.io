@@ -17,7 +17,9 @@ class Article extends Component {
       // 一页的数量
       pageNum: 4,
       count: 0,
-      loading: false
+      loading: false,
+      tupian:
+        "https://user-images.githubusercontent.com/16040462/55384328-08d4e400-555d-11e9-98d5-aca16fbb964f.png"
     };
   }
   componentWillMount() {
@@ -30,64 +32,37 @@ class Article extends Component {
   componentDidMount() {
     console.log("componentDidMount");
   }
-  doQueryCount() {
-    axios
-      .get(`https://api.github.com/repos/${CONFIG["owner"]}/hawerblog/issues`, {
-        params: {
-          creator: CONFIG["owner"],
-          client_id: CONFIG["client_id"],
-          client_secret: CONFIG["client_secret"]
-        }
-      })
-      .then(res => {
-        if (res.status === 200) {
-          const data = res.data;
-          const current = data.filter((v, k) => {
-            return v["title"] != "React App";
-          });
-          this.setState(
-            {
-              count: current.length
-            },
-            () => {
-              console.log("总数：", this.state.count);
-              console.log("current", current);
-            }
-          );
-        }
-      });
-  }
   doQuery() {
-    // 先置空之前的分页值
     this.setState({
-      nowPageIssues: []
+      nowPageIssues: [], // 先置空之前的分页值
+      loading: true //开启菊花
     });
-    this.setState({
-      loading: true
-    });
-    // this.doQueryCount();
+
     axios
-      .get(`https://api.github.com/search/issues?q=state:open+repo:${CONFIG["owner"]}/${CONFIG["repositories"]}`, {
-        params: {
-          creator: CONFIG["owner"],
-          client_id: CONFIG["client_id"],
-          client_secret: CONFIG["client_secret"],
-          page: this.state.page,
-          per_page: this.state.pageNum
+      .get(
+        `https://api.github.com/search/issues?q=-label:Gitalk+state:open+repo:${
+          CONFIG["owner"]
+        }/${CONFIG["repositories"]}`,
+        {
+          params: {
+            creator: CONFIG["owner"],
+            client_id: CONFIG["client_id"],
+            client_secret: CONFIG["client_secret"],
+            page: this.state.page,
+            per_page: this.state.pageNum
+          }
         }
-      })
+      )
       .then(res => {
         if (res.status === 200) {
           const data = res.data;
           // console.log(data)
-          this.setState({
-            loading: false
-          });
           // const current = data.filter((v, k) => {
           //   return v["title"] != "React App";
           // });
           this.setState(
             {
+              loading: false, //关闭菊花
               count: data.total_count
             },
             () => {
@@ -124,6 +99,22 @@ class Article extends Component {
     console.log(item);
     this.props.history.push(`/articleContent/${item.number}`);
   };
+  matchImgFirstIntheBody(body) {
+    // 匹配body中所有图片，并且呈现首图，无一张图片呈现404图片
+    let arr = body.match(
+      /!\[image\]\(https:\/\/.+\.(jpeg|jpg|png|pdf|txt|gif)\)/gi
+    );
+
+    if (arr) {
+      console.log("arr--have", arr);
+      let picUrl = arr[0].match(/https:\/\/.+\.(jpeg|jpg|png|pdf|txt|gif)/)[0];
+      console.log("picUrl:", picUrl);
+      return <img src={picUrl} alt=""/>
+    } else {
+      console.log("arr--not", arr);
+      return <img src={this.state.tupian} alt="" />;
+    }
+  }
   render() {
     const { page, pageNum, count, nowPageIssues, loading } = this.state;
     const antIcon = <Icon type="loading" style={{ fontSize: 100 }} spin />;
@@ -149,8 +140,11 @@ class Article extends Component {
                     >
                       <div className="gutter-box">
                         <div className={styles.articleItem_box}>
+                          {this.matchImgFirstIntheBody(it.body)}
                           <div className={styles.artInfo_bottom}>
-                            <h1>{it.title}</h1>
+                            <h1>
+                              <span>{it.title}</span>
+                            </h1>
                             <div>
                               <span>发表于：</span>
                               <span>{TimeUpdate(it.created_at)}</span>

@@ -2,18 +2,21 @@ import React, { Component } from "react";
 import styles from "./home.module.less";
 // import { Button } from "antd"
 import { Button as Abutton } from "@alifd/next";
-import { Icon,Skeleton} from "antd";
+import { Icon, Skeleton } from "antd";
 import headimg from "@assets/img/wangmen.png";
-import tupian from "@assets/img/tupian.jpg";
 import axios from "axios";
 import { CONFIG } from "@config";
+// import tupian from "@assets/img/tupian.jpg";
+
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       itemList: [],
-      loading:false
+      loading: false,
+      tupian: "https://user-images.githubusercontent.com/16040462/55384328-08d4e400-555d-11e9-98d5-aca16fbb964f.png",
+      avatarImgStatus: null,
     };
     // this.handleOnArtice = this.handleOnArtice.bind(this);
   }
@@ -21,29 +24,40 @@ export default class Home extends Component {
     this.getBlogApiData();
   }
   getBlogApiData() {
-    this.setState({loading:true});
+    this.setState({ loading: true });
     const self = this;
+    // 针对github整站查询 (可扩展参数多)
+    // https://api.github.com/search/issues?q=-label:Gitalk+state:open+repo:${CONFIG["owner"]}/${CONFIG["repositories"]}
+    // 只根据git指定用户参考查询(配置少)
+    // https://api.github.com/repos/${CONFIG["owner"]}/${CONFIG["repositories"]}/issues
     axios
-      .get(`https://api.github.com/repos/${CONFIG["owner"]}/${CONFIG["repositories"]}/issues`, {
-        params: {
-          creator: CONFIG["owner"],
-          client_id: CONFIG["client_id"],
-          client_secret: CONFIG["client_secret"]
+      .get(
+        `https://api.github.com/search/issues?q=-label:Gitalk+state:open+repo:${
+          CONFIG["owner"]
+        }/${CONFIG["repositories"]}`,
+        {
+          params: {
+            creator: CONFIG["owner"],
+            client_id: CONFIG["client_id"],
+            client_secret: CONFIG["client_secret"]
+          }
         }
-      })
+      )
       .then(res => {
         if (res.status === 200) {
           let data = res.data;
-          self.setState({loading:false});
-          const current = data.filter((v, k) => {
-            return v["title"] != "React App" && !v["pull_request"];
-          });
-          console.log(current);
+          console.log("all:", data);
+          self.setState({ loading: false });
+          // const current = data.filter((v, k) => {
+          //   return v["title"] != "React App" && !v["pull_request"];
+          // });
+          // console.log(current);
           // console.log(data)
           this.setState({
-            itemList: current.slice(0, 3)
+            itemList: data.items.slice(0, 3)//current.slice(0, 3)
+          },()=>{
+            console.log(this.state.itemList);
           });
-          console.log(this.state.itemList);
         }
       });
   }
@@ -55,14 +69,23 @@ export default class Home extends Component {
     // 方式2：正则匹配参数，传递参数防止路由末尾，页面刷新参数还在
     this.props.history.push(`/articleContent/${item.number}`);
   };
+  imgisLoadFinish(){
+    // 图片是否加载完成
+    this.setState({
+      avatarImgStatus: 'loaded' ,
+    },()=>{
+    });
+
+  }
   render() {
-    const {loading} = this.state
+    const { loading , tupian ,avatarImgStatus} = this.state;
     return (
       <div>
         <div className="center_borderbox">
           <div className={styles.userinfo}>
             <div className={styles.userimg}>
-              <img src={headimg} alt="" />
+              <Skeleton loading={avatarImgStatus === 'loaded' ? false : true} active avatar />
+              <img src={headimg} alt="" onLoad={()=>{this.imgisLoadFinish()}}/>
             </div>
             <div className={styles.usertext}>
               <div className={styles.user_tit}>Futurefinger.Hawer.Mr.H</div>
@@ -83,6 +106,7 @@ export default class Home extends Component {
             <div className={styles.article_top}>
               <div className={styles.title}>最近文章</div>
               <div className={styles.article_box_wrap}>
+                <Skeleton loading={loading} active />
                 {this.state.itemList.map((it, index) => {
                   return (
                     <div
@@ -90,7 +114,6 @@ export default class Home extends Component {
                       onClick={this.handleOnArtice.bind(this, it)}
                       key={index}
                     >
-                    <Skeleton loading={loading} active>
                       <div className={styles.img_wrap}>
                         <img src={tupian} alt="" />
                       </div>
@@ -121,7 +144,6 @@ export default class Home extends Component {
                           </span>
                         </div>
                       </div>
-                    </Skeleton>
                     </div>
                   );
                 })}
