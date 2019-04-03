@@ -192,6 +192,7 @@ export default class articleContent extends Component {
                           display: "inline-block",
                           padding: 4
                         }}
+                        key={index}
                       >
                         <Tag
                           style={{

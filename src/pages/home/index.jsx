@@ -6,8 +6,7 @@ import { Icon, Skeleton } from "antd";
 import headimg from "@assets/img/wangmen.png";
 import axios from "axios";
 import { CONFIG } from "@config";
-// import tupian from "@assets/img/tupian.jpg";
-
+import { matchImgFirstIntheBody } from "@utils";
 
 export default class Home extends Component {
   constructor(props) {
@@ -15,8 +14,7 @@ export default class Home extends Component {
     this.state = {
       itemList: [],
       loading: false,
-      tupian: "https://user-images.githubusercontent.com/16040462/55384328-08d4e400-555d-11e9-98d5-aca16fbb964f.png",
-      avatarImgStatus: null,
+      avatarImgStatus: null
     };
     // this.handleOnArtice = this.handleOnArtice.bind(this);
   }
@@ -53,11 +51,14 @@ export default class Home extends Component {
           // });
           // console.log(current);
           // console.log(data)
-          this.setState({
-            itemList: data.items.slice(0, 3)//current.slice(0, 3)
-          },()=>{
-            console.log(this.state.itemList);
-          });
+          this.setState(
+            {
+              itemList: data.items.slice(0, 3) //current.slice(0, 3)
+            },
+            () => {
+              console.log(this.state.itemList);
+            }
+          );
         }
       });
   }
@@ -69,23 +70,34 @@ export default class Home extends Component {
     // 方式2：正则匹配参数，传递参数防止路由末尾，页面刷新参数还在
     this.props.history.push(`/articleContent/${item.number}`);
   };
-  imgisLoadFinish(){
+  imgisLoadFinish() {
     // 图片是否加载完成
-    this.setState({
-      avatarImgStatus: 'loaded' ,
-    },()=>{
-    });
-
+    this.setState(
+      {
+        avatarImgStatus: "loaded"
+      },
+      () => {}
+    );
   }
   render() {
-    const { loading , tupian ,avatarImgStatus} = this.state;
+    const { loading, avatarImgStatus } = this.state;
     return (
       <div>
         <div className="center_borderbox">
           <div className={styles.userinfo}>
             <div className={styles.userimg}>
-              <Skeleton loading={avatarImgStatus === 'loaded' ? false : true} active avatar />
-              <img src={headimg} alt="" onLoad={()=>{this.imgisLoadFinish()}}/>
+              <Skeleton
+                loading={avatarImgStatus === "loaded" ? false : true}
+                active
+                avatar
+              />
+              <img
+                src={headimg}
+                alt=""
+                onLoad={() => {
+                  this.imgisLoadFinish();
+                }}
+              />
             </div>
             <div className={styles.usertext}>
               <div className={styles.user_tit}>Futurefinger.Hawer.Mr.H</div>
@@ -115,7 +127,7 @@ export default class Home extends Component {
                       key={index}
                     >
                       <div className={styles.img_wrap}>
-                        <img src={tupian} alt="" />
+                        {matchImgFirstIntheBody(it.body)}
                       </div>
                       <div className={styles.art_info}>
                         <div className={styles.art_tit}>

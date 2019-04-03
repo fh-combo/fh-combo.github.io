@@ -1,3 +1,4 @@
+import React from 'react'
 // 时间转换方法
 export function TimeUpdate(time){
   if (!time) return '';
@@ -44,4 +45,24 @@ export function TimesFun(timesData) {
   timesString = dayDiff + '天' + hours + '小时' + minutes + '分钟' + seconds+'秒';
 
   return timesString
+}
+
+
+// 封装：获取文章中的首张图片的地址
+export function matchImgFirstIntheBody(body) {
+  let tupian = `https://user-images.githubusercontent.com/16040462/55384328-08d4e400-555d-11e9-98d5-aca16fbb964f.png`;
+  // 匹配body中所有图片，并且呈现首图，无一张图片呈现404图片
+  let arr = body.match(
+    /!\[image\]\(https:\/\/.+\.(jpeg|jpg|png|pdf|txt|gif)\)/gi
+  );
+
+  if (arr) {
+    console.log("arr--have", arr);
+    let picUrl = arr[0].match(/https:\/\/.+\.(jpeg|jpg|png|pdf|txt|gif)/)[0];
+    console.log("picUrl:", picUrl);
+    return <img src={picUrl} alt=""/>
+  } else {
+    console.log("arr--not", arr);
+    return <img src={tupian} alt="" />;
+  }
 }
