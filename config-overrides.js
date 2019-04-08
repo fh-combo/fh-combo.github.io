@@ -67,8 +67,8 @@ module.exports = function override(config, env) {
   // less局部应用样式依赖方案
   config = rewireLessWithModule(config, env, {
     modifyVars: {
-      "@primary-color": "red",
-      "@link-color": "#1DA57A",
+      "@primary-color": "#F1BC74",
+      "@link-color": "#20205B",
       "@border-radius-base": "2px",
       "@font-size-base": "16px",
       "@line-height-base": "1.2"
