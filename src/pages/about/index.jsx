@@ -23,8 +23,8 @@ import {
 import Emojify from "react-emojione";
 import { Button as AButton, Dialog as ADialog } from "@alifd/next";
 import qs from "qs";
+import EmojiPicker from 'emoji-picker-react';
 
-const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const { Meta } = Card;
 
@@ -36,6 +36,7 @@ class About extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentHeadIcon:"smile_cat",
       moodStateText: "Hello World!!",
       currentMoodStateText: "",
       visible: false,
@@ -88,6 +89,12 @@ class About extends Component {
     } else {
       return false;
     }
+  }
+  onTapheadImg = (text,item) =>{
+    console.log(text,item)
+    this.setState({
+      currentHeadIcon:item.name
+    })
   }
   onSelectResetStatusChange = value => {
     console.log(`Selected: ${value}`);
@@ -167,7 +174,8 @@ class About extends Component {
       serviceLoading,
       serviceDelivery,
       avatarImgStatus,
-      moodStateText
+      moodStateText,
+      currentHeadIcon
     } = this.state;
 
     const formItemLayout = {
@@ -177,59 +185,9 @@ class About extends Component {
     const { getFieldDecorator } = this.props.form;
     const content = (
       <div>
-        <Tabs defaultActiveKey="1">
-          <TabPane
-            tab={
-              <span>
-                <Emojify style={{ width: 18, height: 22 }}>🏝</Emojify>
-              </span>
-            }
-            key="1"
-          >
-            <Row>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:punch:</Emojify>
-              </Col>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:sunglasses:</Emojify>
-              </Col>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:ok_hand:</Emojify>
-              </Col>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:blue_heart:</Emojify>
-              </Col>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:family:</Emojify>
-              </Col>
-              <Col span={4}>
-              <Emojify style={{ width: 18, height: 22 }}>:yum:</Emojify>
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <Emojify style={{ width: 18, height: 22 }}>🚅</Emojify>
-              </span>
-            }
-            key="2"
-          >
-          tab2
-          </TabPane>
-          <TabPane
-            tab={
-              <span>
-                <Emojify style={{ width: 18, height: 22 }}>🚖</Emojify>
-              </span>
-            }
-            key="3"
-          >
-          tab3
-          </TabPane>
-        </Tabs>
+        <EmojiPicker onEmojiClick={this.onTapheadImg} disableDiversityPicker/>
       </div>
-    );
+    )
 
     return (
       <div>
@@ -252,7 +210,7 @@ class About extends Component {
               </div>
               <div className={styles.ctrl_bottom}>
                 <div className={styles.emoji_fix} onClick={this.onOpen}>
-                  <Emojify style={{ width: 18, height: 22 }}>😸</Emojify>
+                  <Emojify style={{ width: 18, height: 22 }}>{`:${currentHeadIcon}:`}</Emojify>
                 </div>
                 {moodStateText}
               </div>
@@ -409,7 +367,7 @@ class About extends Component {
                             cursor: "pointer"
                           }}
                         >
-                          😸
+                          {`:${currentHeadIcon}:`}
                         </Emojify>
                       </Popover>
                     }
