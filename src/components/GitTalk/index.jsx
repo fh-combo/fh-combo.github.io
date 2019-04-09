@@ -3,7 +3,7 @@ import Gitalk from 'gitalk';
 import React from 'react';
 import {Card} from 'antd';
 export default class Gitalks extends React.Component {
-
+  // hello
     componentDidMount(){
         const gitalk = new Gitalk({
             enable: true,
