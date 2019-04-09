@@ -2,7 +2,6 @@ import 'gitalk/dist/gitalk.css';
 import Gitalk from 'gitalk';
 import React from 'react';
 import {Card} from 'antd';
-
 export default class Gitalks extends React.Component {
 
     componentDidMount(){
